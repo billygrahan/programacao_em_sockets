@@ -1,5 +1,19 @@
 import socket
 
+def menu(num):
+    if num == 0:
+        print("-ecreva o nome do arquivo:\n-para sair: exit")
+
+
+def save_txt(resposta, mensagem):
+    # Abra um arquivo de texto para escrita ('w' - write)
+    with open(f'{mensagem}.txt', 'w') as file:
+        file.write(resposta)
+    # O arquivo é automaticamente fechado quando você sai do bloco "with"
+
+
+
+
 # Crie um objeto socket
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -13,22 +27,25 @@ except ConnectionError:
     exit()
 
 while True:
-    mensagem = str(input("arquivo> "))
+    menu(0)
 
-    cliente_socket.send(mensagem.encode())  # encode transforma string em bytes
+    mensagem = str(input("> "))
+    
 
     if mensagem == "exit":
         break
 
-    """with open("arquivo_recebido.txt", 'wb') as file:  # wb escreve no arquivo
-        while True:
-            dados_recebidos = cliente_socket.recv(1024)  # Receba dados do servidor (1024 bytes por vez)
-            if not dados_recebidos:
-                break
-            file.write(dados_recebidos)"""
-    
+
+    cliente_socket.send(mensagem.encode())  # encode transforma string em bytes
+
     resposta = cliente_socket.recv(10000000).decode()
 
-    print(resposta)
+    if resposta != "tuacha":
+        save_txt(resposta, mensagem)
+        print("\n\narquivo criado!\n\n")
+
+    else:
+        print(resposta)
+
 
 print("fim")

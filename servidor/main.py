@@ -1,6 +1,13 @@
 import socket
 import threading
 
+def arquivo(nome_do_arquivo):
+    conteudo_binario = b""
+    with open(nome_do_arquivo, 'rb') as arquivo:
+        # Leia o conteúdo do arquivo em binário
+        conteudo_binario = arquivo.read()
+    return conteudo_binario
+
 def cliente(client_conexao):
     if client_conexao:
         print(f"Conexão de {client_endereco}")
@@ -13,16 +20,15 @@ def cliente(client_conexao):
                 client_conexao.close()
                 print("conexão encerrada!")
                 break
-            elif mensagem == "mensagem":
+            elif mensagem == "poema":
                 try:
-                    resposta = "tuacha deu bom"
-                    client_conexao.sendall(resposta.encode())
+                    client_conexao.sendall(arquivo(f"arquivos/{mensagem}.txt"))
                 except BrokenPipeError:
                     print("Conexão com o cliente foi encerrada prematuramente.")
                     break
             else:
                 try:
-                    resposta = "ne isso não!"
+                    resposta = "tuacha"
                     client_conexao.sendall(resposta.encode())
                 except BrokenPipeError:
                     print("Conexão com o cliente foi encerrada prematuramente.")
