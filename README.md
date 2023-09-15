@@ -12,3 +12,15 @@ Este é um exemplo de um servidor e cliente Python que se comunicam por meio de 
 
    ```python
    server_socket.bind(('127.0.0.1', 12345))
+
+Você pode modificar o endereço IP e a porta conforme necessário.
+
+Inicie o servidor executando o arquivo `server.py`.
+
+## Configuração do Cliente
+Abra o arquivo `client.py` em um ambiente Python.
+
+Verifique se o cliente está configurado para se conectar ao mesmo endereço IP e porta em que o servidor está escutando. A linha a ser verificada é:
+
+```python
+cliente_socket.connect(('localhost', 12345))
