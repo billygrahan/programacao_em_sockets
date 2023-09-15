@@ -28,12 +28,12 @@ Abra o arquivo `client.py` em um ambiente Python.
 
 3. Inicie o cliente executando o arquivo `client.py`.
 
-##Uso do Cliente
+## Uso do Cliente
 Ao iniciar o cliente, você será apresentado a um menu simples. Você pode inserir o nome de um arquivo (por exemplo, “poema”) para solicitar um arquivo de texto do servidor. O servidor procurará o arquivo no diretório “arquivos” e o enviará de volta ao cliente se existir.
 
 Você também pode digitar “exit” para encerrar a conexão com o servidor e sair do cliente.
 
-##Notas Adicionais
+## Notas Adicionais
 Os arquivos de texto solicitados pelo cliente são armazenados na pasta “arquivos” do servidor e enviados ao cliente quando solicitados.
 
 O servidor é capaz de lidar com várias conexões de clientes simultaneamente por meio de threads.
@@ -44,5 +44,5 @@ Este é apenas um exemplo simples de comunicação cliente-servidor usando socke
 
 Certifique-se de encerrar tanto o servidor quanto o cliente quando não estiver mais em uso.
 
-##Autor
+## Autor
 JVictor011 e billygrahan
