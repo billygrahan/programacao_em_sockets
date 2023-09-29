@@ -7,11 +7,17 @@ def menu(num):
         print("- Digite 'tempo' para obter a hora do servidor.")
         print("- Digite 'imagem' para receber uma imagem PNG.")
         print("- Digite 'poema' para receber uma poema.")
+        print("- Digite 'listar' para listar os arquivos.")
         print("- Digite 'exit' para sair.")
 
 def save_txt(resposta, mensagem):
     with open(f'{mensagem}.txt', 'w') as file:
         file.write(resposta)
+
+def listar_arquivos(cliente_socket):
+    cliente_socket.send("listar".encode())
+    lista_arquivos = cliente_socket.recv(1000000).decode()
+    print(f'Arquivos no diretório do servidor:\n{lista_arquivos}')
 
 def receber_imagem(cliente_socket):
     img_size = int.from_bytes(cliente_socket.recv(4), byteorder='big')
@@ -42,6 +48,8 @@ while True:
     elif mensagem == "imagem":
         cliente_socket.send(mensagem.encode())
         receber_imagem(cliente_socket)
+    elif mensagem == "lista":
+        listar_arquivos(cliente_socket)
     else:
         cliente_socket.send(mensagem.encode())
         resposta = cliente_socket.recv(10000000).decode()

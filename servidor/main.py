@@ -1,6 +1,18 @@
 import socket
 import threading
 import time
+import os
+
+def listar_arquivos(client_conexao, diretorio):
+    try:
+        arquivos = os.listdir(diretorio)
+        lista_arquivos = "\n".join(arquivos)
+        client_conexao.sendall(lista_arquivos.encode())
+    except FileNotFoundError:
+        resposta = "Diretório não encontrado."
+        client_conexao.sendall(resposta.encode())
+    except BrokenPipeError:
+        print("Conexão com o cliente foi encerrada prematuramente.")
 
 def enviar_img(client_conexao, nome_do_arquivo):
     try:
@@ -46,6 +58,8 @@ def cliente(client_conexao, client_endereco):
             elif mensagem == "tempo":
                 current_time = time.ctime(time.time())
                 client_conexao.sendall(current_time.encode())
+            elif mensagem == "listar":
+                listar_arquivos(client_conexao, "arquivos")
             else:
                 try:
                     resposta = "tuacha"
