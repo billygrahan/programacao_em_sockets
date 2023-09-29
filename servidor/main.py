@@ -5,11 +5,10 @@ import time
 def enviar_img(client_conexao, nome_do_arquivo):
     try:
         with open(nome_do_arquivo, 'rb') as file:
-            while True:
-                chunk = file.read(5 * 1024 * 1024)  # Leitura em pedaços de 1 MB
-                if not chunk:
-                    break
-                client_conexao.send(chunk)
+            img_data = file.read()
+            img_size = len(img_data).to_bytes(4, byteorder='big')  # Envia o tamanho da imagem como 4 bytes
+            client_conexao.send(img_size)
+            client_conexao.send(img_data)
     except FileNotFoundError:
         resposta = "Arquivo não encontrado."
         client_conexao.sendall(resposta.encode())

@@ -1,5 +1,6 @@
 import socket
 
+
 def menu(num):
     if num == 0:
         print("- Digite o nome do arquivo:")
@@ -11,6 +12,13 @@ def menu(num):
 def save_txt(resposta, mensagem):
     with open(f'{mensagem}.txt', 'w') as file:
         file.write(resposta)
+
+def receber_imagem(cliente_socket):
+    img_size = int.from_bytes(cliente_socket.recv(4), byteorder='big')
+    img_data = cliente_socket.recv(img_size)
+    with open('imagem_recebida.png', 'wb') as file:
+        file.write(img_data)
+    print("\n\nImagem recebida e salva como 'imagem_recebida.png'.\n\n")
 
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -33,10 +41,7 @@ while True:
         print(f'Tempo do servidor: {resposta}')
     elif mensagem == "imagem":
         cliente_socket.send(mensagem.encode())
-        resposta = cliente_socket.recv(5 * 1024 * 1024)
-        with open(f'imagem_recebida.png', 'wb') as file:
-            file.write(resposta)
-        print("\n\nImagem recebida e salva como 'imagem_recebida.png'.\n\n")
+        receber_imagem(cliente_socket)
     else:
         cliente_socket.send(mensagem.encode())
         resposta = cliente_socket.recv(10000000).decode()
