@@ -2,50 +2,49 @@ import socket
 
 def menu(num):
     if num == 0:
-        print("-ecreva o nome do arquivo:\n-para sair: exit")
-
+        print("- Digite o nome do arquivo:")
+        print("- Digite 'tempo' para obter a hora do servidor.")
+        print("- Digite 'imagem' para receber uma imagem PNG.")
+        print("- Digite 'poema' para receber uma poema.")
+        print("- Digite 'exit' para sair.")
 
 def save_txt(resposta, mensagem):
-    # Abra um arquivo de texto para escrita ('w' - write)
     with open(f'{mensagem}.txt', 'w') as file:
         file.write(resposta)
-    # O arquivo é automaticamente fechado quando você sai do bloco "with"
 
-
-
-
-# Crie um objeto socket
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Associe o socket à porta e endereço desejados
 
 try:
     cliente_socket.connect(('localhost', 12345))
-    print("conectado!")
+    print("Conectado ao servidor!")
 except ConnectionError:
-    print("não foi possível conectar ao servidor.")
+    print("Não foi possível conectar ao servidor.")
     exit()
 
 while True:
     menu(0)
-
     mensagem = str(input("> "))
-    
 
     if mensagem == "exit":
         break
-
-
-    cliente_socket.send(mensagem.encode())  # encode transforma string em bytes
-
-    resposta = cliente_socket.recv(10000000).decode()
-
-    if resposta != "tuacha":
-        save_txt(resposta, mensagem)
-        print("\n\narquivo criado!\n\n")
-
+    elif mensagem == "tempo":
+        cliente_socket.send(mensagem.encode())
+        resposta = cliente_socket.recv(1024).decode()
+        print(f'Tempo do servidor: {resposta}')
+    elif mensagem == "imagem":
+        cliente_socket.send(mensagem.encode())
+        resposta = cliente_socket.recv(5 * 1024 * 1024)
+        with open(f'imagem_recebida.png', 'wb') as file:
+            file.write(resposta)
+        print("\n\nImagem recebida e salva como 'imagem_recebida.png'.\n\n")
     else:
-        print(resposta)
+        cliente_socket.send(mensagem.encode())
+        resposta = cliente_socket.recv(10000000).decode()
 
+        if resposta != "tuacha":
+            save_txt(resposta, mensagem)
+            print("\n\nArquivo criado!\n\n")
+        else:
+            print(resposta)
 
-print("fim")
+print("Fim")
