@@ -4,7 +4,7 @@ Este é um projeto de exemplo de um sistema cliente e servidor Python que se com
 
 ## Servidor
 
-O código do servidor está no arquivo `server.py`. Ele utiliza a biblioteca `socket`, `threading` e outras para criar um servidor que pode atender múltiplos clientes simultaneamente. O servidor oferece os seguintes serviços:
+O código do servidor está no arquivo `main.py`. Ele utiliza a biblioteca `socket`, `threading` e outras para criar um servidor que pode atender múltiplos clientes simultaneamente. O servidor oferece os seguintes serviços:
 
 - Listar arquivos em um diretório.
 - Enviar imagens para clientes.
@@ -14,7 +14,7 @@ O código do servidor está no arquivo `server.py`. Ele utiliza a biblioteca `so
 
 Para iniciar o servidor, siga estas etapas:
 
-1. Abra o arquivo `server.py` em um ambiente Python.
+1. Abra o arquivo `main.py` em um ambiente Python.
 2. Certifique-se de que a porta e o endereço IP do servidor estejam configurados corretamente na linha:
 
    ```python
