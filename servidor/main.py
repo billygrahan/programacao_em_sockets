@@ -39,22 +39,29 @@ def cliente(client_conexao, client_endereco):
 
         while True:
             mensagem = client_conexao.recv(1000000).decode()
+            if not mensagem:
+                break
 
             if mensagem == "exit":
                 client_conexao.close()
                 print("Conexão encerrada!")
                 break
-            elif mensagem == "poema":
+            elif mensagem.startswith("poema:"):
                 try:
-                    client_conexao.sendall(arquivo(f"arquivos/{mensagem}.txt"))
+                    filename = mensagem.split(":")[1]
+                    client_conexao.sendall(arquivo(f"arquivos/{filename}.txt"))
                 except FileNotFoundError:
-                    resposta = "Arquivo não encontrado."
+                    resposta = "Arquivo nao encontrado."
                     client_conexao.sendall(resposta.encode())
                 except BrokenPipeError:
                     print("Conexão com o cliente foi encerrada prematuramente.")
                     break
-            elif mensagem == "imagem":
-                enviar_img(client_conexao, "arquivos/imagem.png")
+            elif mensagem.startswith("imagem:"):
+                try:
+                    filename = mensagem.split(":")[1]  # Obtém o nome do arquivo da mensagem
+                    enviar_img(client_conexao, f"arquivos/{filename}.png")
+                except FileNotFoundError:
+                    print("Imagem não encontrada!")
             elif mensagem == "tempo":
                 current_time = time.ctime(time.time())
                 client_conexao.sendall(current_time.encode())
