@@ -23,7 +23,7 @@ Para iniciar o servidor, siga estas etapas:
 
    Você pode modificar o endereço IP e a porta conforme necessário.
 
-3. Execute o servidor executando o arquivo `server.py`.
+3. Execute o servidor executando o arquivo `main.py`.
 
 ## Cliente
 
