@@ -44,7 +44,7 @@ def cliente(client_conexao, client_endereco):
 
             if mensagem == "exit":
                 client_conexao.close()
-                print("Conexão encerrada!")
+                print(f"Conexão do cliente : {client_endereco} encerrada.")
                 break
             elif mensagem.startswith("poema:"):
                 try:
@@ -77,7 +77,7 @@ def cliente(client_conexao, client_endereco):
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(('127.0.0.1', 12345))
-server_socket.listen(5)
+server_socket.listen(10)
 
 while True:
     print("Servidor aguardando conexões...")
